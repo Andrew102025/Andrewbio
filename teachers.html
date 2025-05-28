@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>軟體工程與管理學系</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 全域樣式與基礎設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0e6d6 0%, #e0d0b0 25%, #d0b080 50%, #c09050 75%, #f0e6d6 100%); /* 更深的暖色系背景 */
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite; /* 調整動畫時間讓背景變換更柔和 */
+            overflow-x: hidden;
+            color: #3e2723; /* 預設文字顏色為深棕色 */
+            line-height: 1.8; /* 增加行高提升閱讀舒適度 */
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 浮動粒子背景 - 調整粒子顏色和大小，使其更細膩 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px; /* 粒子更小 */
+            height: 3px;
+            background: rgba(255, 255, 255, 0.4); /* 淺色粒子，更顯透亮 */
+            border-radius: 50%;
+            animation: float 25s infinite linear; /* 粒子浮動更慢 */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* 增加微光效果 */
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.8; } /* 粒子出現和消失更平滑 */
+            85% { opacity: 0.8; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header - 豪華質感：磨砂玻璃與金屬光澤 */
+        header {
+            background: rgba(192, 144, 80, 0.9); /* 更深的基礎色 */
+            backdrop-filter: blur(25px) brightness(1.1); /* 更強的磨砂效果和亮度 */
+            -webkit-backdrop-filter: blur(25px) brightness(1.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* 輕微的邊框 */
+            padding: 25px 20px;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); /* 更深的陰影 */
+            transition: all 0.5s ease; /* 新增過渡效果 */
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .dept-logo {
+            height: 70px; /* 標誌更大 */
+            border-radius: 15px; /* 更圓潤的邊角 */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 標誌陰影更明顯 */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            filter: drop-shadow(0 0 15px rgba(255, 223, 0, 0.5)); /* 輕微金色光暈 */
+        }
+
+        .dept-logo:hover {
+            transform: scale(1.15) rotate(2deg); /* 更顯著的互動 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif; /* 華麗字體 */
+            font-size: 3rem; /* 標題更大 */
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #ffd700, #daa520, #b8860b, #cd7f32); /* 豪華漸變金 */
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s ease-in-out infinite; /* 調整光澤動畫 */
+            text-shadow: 0 0 40px rgba(255, 223, 0, 0.5); /* 金色發光效果 */
+            margin-bottom: 20px;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .lang-buttons button, .home-link {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.6)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #5d4e37;
+            padding: 10px 20px;
+            border-radius: 30px; /* 更圓潤 */
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 更流暢的過渡 */
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-buttons button:hover, .home-link:hover {
+            background: linear-gradient(135deg, rgba(255, 223, 0, 0.7), rgba(218, 165, 32, 0.6)); /* 懸停時轉為金色漸變 */
+            transform: translateY(-5px) scale(1.05); /* 更顯著的抬升效果 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: #3e2723;
+            border-color: rgba(255, 223, 0, 0.8); /* 金色邊框 */
+        }
+
+        /* Navigation - 高雅的導航列 */
+        nav {
+            background: rgba(93, 78, 55, 0.95); /* 深棕色背景 */
+            backdrop-filter: blur(20px);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px; /* 增加間距 */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        nav a {
+            font-family: 'Playfair Display', serif; /* 導航字體 */
+            color: #f0e6d6; /* 淺米色文字 */
+            text-decoration: none;
+            font-weight: 600;
+            padding: 14px 25px; /* 增加點擊區域 */
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%; /* 更長的滑過效果 */
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 223, 0, 0.4), transparent); /* 金色滑過光澤 */
+            transition: left 0.6s ease-out; /* 更平滑的滑過動畫 */
+        }
+
+        nav a:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520); /* 懸停時變為金棕色 */
+            transform: translateY(-4px) scale(1.08); /* 更顯著的動畫 */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            color: #3e2723;
+        }
+
+        nav a:hover::before {
+            left: 120%; /* 確保光澤完全滑過 */
+        }
+
+        /* Hero Section - 沉穩大氣的形象區 */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 80px 40px; /* 增加內邊距 */
+            max-width: 1300px; /* 擴大最大寬度 */
+            margin: 60px auto; /* 增加上下間距 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.6)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(25px) brightness(1.05);
+            -webkit-backdrop-filter: blur(25px) brightness(1.05);
+            border-radius: 40px; /* 更大的圓角 */
+            border: 2px solid rgba(255, 223, 0, 0.3); /* 金色邊框 */
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25); /* 更深的陰影 */
+            position: relative;
+            z-index: 10;
+            animation: slideUp 1.2s ease-out; /* 調整載入動畫 */
+            overflow: hidden; /* 防止內容溢出 */
+            background-size: 100% 100%; /* 確保背景漸變填充 */
+            background-repeat: no-repeat;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero::before { /* 增加背景紋理疊加 */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgNzAgNzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgCTxnIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+CgkgICAgCTxwYXRoIGQ9Ik0wIDcwaDcwVjBIMHoiIGZpbGw9InJnYmEoMCwwLDAsMC4wNSkiLz4KICAgICAgICA8cGF0aCBkPSJNMCA3MCBMIDcwIDAgTCA3MCA3MCBaIiBmaWxsPSJ1cmwoI2xpbmVhckdyYWRpZW50KSIvPgogICAgPC9nPgogICAgPHBhdGggZD0iTTMwIDcwQzMwIDQ3LjkgNDcuOSA1MC40IDU4LjcgNDAuMUM2OS40IDI5LjggNzAgMC4xIDUwIDAuMUw1MCAzMC42QzUwLjcgNDEuMiAzOS43IDQ4LjQgMjkuMiA1MC4xQzE4LjggNTEuNyAxNSA1My4zIDE1IDc3LjkgTDE1IDcwWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA0KSIvPgoJPC9nPgogICAgPC9zdmc+') repeat;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero img {
+            max-width: 100%;
+            width: 450px; /* 圖片更大 */
+            border-radius: 25px; /* 更圓潤邊角 */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); /* 更深的陰影 */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-right: 50px; /* 增加間距 */
+            border: 3px solid rgba(255, 223, 0, 0.4); /* 金色邊框 */
+            filter: grayscale(10%) brightness(1.05); /* 輕微去色和提亮 */
+        }
+
+        .hero img:hover {
+            transform: scale(1.08) rotateY(8deg); /* 更顯著的互動 */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            filter: grayscale(0%) brightness(1.1); /* 恢復色彩並更亮 */
+        }
+
+        .hero .info {
+            flex: 1;
+            min-width: 350px; /* 資訊區最小寬度 */
+        }
+
+        .hero .info h2 {
+            font-family: 'Playfair Display', serif;
+            color: #5d4e37;
+            font-size: 3rem; /* 標題更大 */
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #b8860b, #daa520, #ffd700); /* 金色漸變 */
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            animation: text-glow 2s ease-in-out infinite alternate; /* 輕微發光動畫 */
+        }
+
+        @keyframes text-glow {
+            from { text-shadow: 0 0 10px rgba(255, 223, 0, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 223, 0, 0.8); }
+        }
+
+        .hero .info p {
+            font-size: 1.2rem; /* 文字更大 */
+            margin: 20px 0;
+            color: #4a382b; /* 更深的文字顏色 */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            line-height: 1.8;
+        }
+
+        .hero .info p strong {
+            color: #8b5a3c;
+            font-weight: 700;
+            letter-spacing: 0.5px; /* 增加字距 */
+        }
+
+        /* News Section - 精緻的消息公告區 */
+        .embed-news {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(240, 240, 240, 0.5)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 60px 40px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 223, 0, 0.3); /* 金色邊框 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .embed-news h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; /* 標題更大 */
+            color: #5d4e37;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .embed-news h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px; /* 分隔線更長 */
+            height: 5px; /* 分隔線更粗 */
+            background: linear-gradient(90deg, #ffd700, #daa520, #ffd700); /* 金色漸變 */
+            border-radius: 3px;
+            animation: pulse-gold 2.5s ease-in-out infinite; /* 調整脈衝動畫 */
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 223, 0, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(255, 223, 0, 0.7); }
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px; /* iframe 更高 */
+            border: 3px solid rgba(255, 223, 0, 0.5); /* 金色邊框 */
+            border-radius: 25px; /* 更圓潤 */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(255, 255, 255, 0.1); /* 輕微透明背景 */
+        }
+
+        /* Links Section - 典雅的連結區 */
+        .links {
+            padding: 70px 40px;
+            background: linear-gradient(135deg, rgba(240, 230, 220, 0.8), rgba(220, 200, 180, 0.7)); /* 淺米色磨砂背景 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 60px 40px;
+            border-radius: 35px;
+            border: 2px solid rgba(255, 223, 0, 0.4); /* 金色邊框 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .links h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; /* 標題更大 */
+            color: #5d4e37;
+            margin-bottom: 35px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* 增加間距 */
+        }
+
+        .links li {
+            width: 100%;
+            max-width: 500px; /* 連結區域更寬 */
+        }
+
+        .links a {
+            display: flex; /* 讓內容居中 */
+            justify-content: center;
+            align-items: center;
+            color: #5d4e37;
+            text-decoration: none;
+            padding: 18px 30px; /* 增加點擊區域 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.7)); /* 淺色磨砂背景 */
+            border-radius: 20px;
+            border: 2px solid rgba(255, 223, 0, 0.5); /* 金色邊框 */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.15rem; /* 字體更大 */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .links a::before { /* 連結懸停時的光澤效果 */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 223, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: 1;
+        }
+
+        .links a:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520); /* 懸停時轉為金棕色 */
+            transform: translateY(-8px) scale(1.03); /* 更顯著的抬升 */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            border-color: #ffd700; /* 實心金色邊框 */
+            color: #f8f6f0; /* 懸停時文字變淺 */
+        }
+
+        .links a:hover::before {
+            left: 100%;
+        }
+
+        /* Teacher Section - 全新的教師介紹區塊 */
+        .teacher-section {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.6));
+            backdrop-filter: blur(25px) brightness(1.05);
+            -webkit-backdrop-filter: blur(25px) brightness(1.05);
+            margin: 60px auto;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 223, 0, 0.3);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 10;
+            max-width: 1300px; /* 配合 Hero 區塊寬度 */
+            overflow: hidden;
+        }
+
+        .teacher-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #5d4e37;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .teacher-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700, #daa520, #ffd700);
+            border-radius: 3px;
+            animation: pulse-gold 2.5s ease-in-out infinite;
+        }
+
+        .teacher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* RWD 網格佈局 */
+            gap: 30px; /* 增加卡片間距 */
+            justify-content: center;
+        }
+
+        .teacher-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.7));
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 223, 0, 0.3); /* 金色細邊框 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* 柔和陰影 */
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding-bottom: 25px; /* 增加底部間距 */
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px) scale(1.02); /* 懸停抬升效果 */
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 223, 0, 0.6);
+        }
+
+        .teacher-card-img {
+            height: 250px; /* 圖片高度 */
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid rgba(255, 223, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            filter: grayscale(10%) brightness(1.05); /* 輕微去色和提亮 */
+            transition: all 0.4s ease;
+        }
+
+        .teacher-card:hover .teacher-card-img {
+            filter: grayscale(0%) brightness(1.15); /* 懸停時恢復色彩並更亮 */
+            transform: scale(1.05); /* 圖片輕微放大 */
+        }
+
+        .teacher-card-img a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none; /* 隱藏連結下劃線 */
+        }
+
+        .teacher-card-body {
+            padding: 25px;
+            flex-grow: 1; /* 讓內容區塊自動填充高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 內容上下分散對齊 */
+        }
+
+        .teacher-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8b5a3c;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-card-title a {
+            color: #8b5a3c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .teacher-card-title a:hover {
+            color: #daa520; /* 懸停時變金 */
+        }
+
+        .teacher-card-title .fa-home {
+            margin-left: 8px;
+            color: #b8860b; /* 金色小圖標 */
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .teacher-card-title a:hover .fa-home {
+            transform: scale(1.2);
+        }
+
+        .teacher-card-text {
+            font-size: 1.05rem;
+            color: #4a382b;
+            text-align: left; /* 文本左對齊 */
+            line-height: 1.6;
+            margin-bottom: 15px; /* 調整間距 */
+        }
+
+        .teacher-card-text strong {
+            color: #6a4c33;
+            font-weight: 600;
+        }
+
+        .teacher-card-text a {
+            color: #cd853f; /* Email 連結顏色 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .teacher-card-text a:hover {
+            color: #daa520; /* Email 連結懸停時變金 */
+            text-decoration: underline;
+        }
+
+        /* Footer - 沉穩的頁腳 */
+        footer {
+            background: linear-gradient(135deg, rgba(93, 78, 55, 0.98), rgba(62, 39, 35, 0.98)); /* 更深的棕色漸變 */
+            backdrop-filter: blur(25px);
+            color: rgba(248, 246, 240, 0.95); /* 更淺的文字顏色 */
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+            border-top: 2px solid rgba(255, 223, 0, 0.2); /* 金色細邊 */
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            font-size: 1.1rem; /* 字體更大 */
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.8px; /* 增加字距 */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero, .teacher-section {
+                padding: 60px 30px;
+                margin: 40px auto;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero img {
+                margin-right: 0;
+                margin-bottom: 40px;
+                width: 350px;
+            }
+
+            .hero .info h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero .info p {
+                font-size: 1.1rem;
+            }
+            .teacher-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .dept-logo {
+                height: 60px;
+            }
+            
+            nav a {
+                padding: 10px 18px;
+                font-size: 0.95rem;
+            }
+
+            .embed-news, .teacher-section {
+                padding: 50px 20px;
+                margin: 30px 15px;
+            }
+            .embed-news h2, .teacher-section h2 {
+                font-size: 2.2rem;
+            }
+            iframe {
+                height: 500px;
+            }
+
+            .links {
+                padding: 40px 20px;
+                margin: 30px 15px;
+            }
+            .links h3 {
+                font-size: 1.8rem;
+            }
+            .links a {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+            .teacher-grid {
+                grid-template-columns: 1fr; /* 單列佈局 */
+            }
+            .teacher-card-img {
+                height: 200px;
+            }
+
+            footer {
+                padding: 25px;
+                margin-top: 30px;
+            }
+            footer p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .dept-logo {
+                height: 50px;
+            }
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .lang-buttons button, .home-link {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 8px;
+                padding: 0 10px;
+            }
+            nav a {
+                width: 90%;
+                text-align: center;
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding: 40px 20px;
+            }
+            .hero img {
+                width: 280px;
+            }
+            .hero .info h2 {
+                font-size: 2rem;
+            }
+            .hero .info p {
+                font-size: 1rem;
+            }
+            .embed-news h2, .teacher-section h2 {
+                font-size: 1.8rem;
+            }
+            iframe {
+                height: 400px;
+            }
+            .links h3 {
+                font-size: 1.6rem;
+            }
+            .links a {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .teacher-card-title {
+                font-size: 1.5rem;
+            }
+            .teacher-card-text {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="header-content">
+            <img src="https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=aTq%2b%2bdZoW3gSeRq45gBU0WIZJYI5hMAEf1w3meo6H0qWnXk6BZpwhqH5JLqU5AN7" alt="系所LOGO" class="dept-logo">
+            <h1>國立高雄師範大學 軟體工程與管理學系</h1>
+        </div>
+        <div class="header-controls">
+            <div class="lang-buttons">
+                <button onclick="this.onclick = function() { window.location.href = prompt('請輸入繁中版連結:') || '#'; }; this.click();">繁中</button>
+                <button onclick="this.onclick = function() { window.location.href = prompt('請輸入English版連結:') || '#'; }; this.click();">English</button>
+            </div>
+            <a href="https://www.nknu.edu.tw/" class="home-link" target="_blank">高師首頁</a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#">首頁</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=1" target="_blank">系所簡介</a>
+            <a href="teachers.html" target="_blank">系所師資</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=3" target="_blank">招生專區</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=4" target="_blank">文件下載</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=5" target="_blank">學生園地</a>
+            <a href="https://sites.google.com/mail.nknu.edu.tw/projects" target="_blank">歷年專題</a>
+            <a href="https://semfreshman.sdpmlab.org/" target="_blank">高中生專區</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=6" target="_blank">聯絡我們</a>
+        </div>
+    </nav>
+
+    <section class="teacher-section">
+        <h2>師資介紹</h2>
+        <div class="teacher-grid">
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fMK%2bZ0Hk8rfY3HgYLFUYYonsq9ADJqQU7ZbcopbJ9%2f94D5zl0%2bNYIcQksW6QzoBe4g%3d%3d');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3548" target="_blank" title="李文廷"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3548" target="_blank">李文廷</a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 軟體工程、軟體流程改善、微服務架構、敏捷方法、Web及容器技術、人工智慧、大數據分析<br />電話: 8009, 8000<br />Email: <a href='mailto:wtlee@mail.nknu.edu.tw' title='寄信給wtlee@mail.nknu.edu.tw'>wtlee@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fCA0OETazDjoLEfTHwItI116yx%2bXb8povj%2fv4izjWK2E');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=1629" target="_blank" title="孫培真"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=1629" target="_blank">孫培真</a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 人工智慧(Artificial Intelligence)、資訊教育(Computer Education)、數據科學(Data Science)、機器學習(Machine Learning)、教育機器人(Educational Robot)<br />電話: 8012<br />Email: <a href='mailto:sun@mail.nknu.edu.tw' title='寄信給sun@mail.nknu.edu.tw'>sun@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fNJ6SuTQmsLUAWihhPa29GyXCkqWVv9BKyxF5Un1iKXa');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=2675" target="_blank" title="葉道明"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=2675" target="_blank">葉道明</a>  | <a href="https://sites.google.com/site/dowming/home" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 反向工程, 軟體工程, 全球資訊網工程, 數位學習, 人機介面<br />電話: 8005<br />Email: <a href='mailto:dmyeh@mail.nknu.edu.tw' title='寄信給dmyeh@mail.nknu.edu.tw'>dmyeh@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fIT7SRCI7z%2feT8Bugiw9Dj4L2xPxkT4m%2bGa6zfurVeK2');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=2681" target="_blank" title="林哲正"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=2681" target="_blank">林哲正</a>  | <a href="http://www.se.nknu.edu.tw/web/entry/teacher_web/ccl.htm" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 人工智慧, 圖訊識別, 訊號處理 / 影像處理, 物件導向程式設計, 資訊教育<br />電話: 8004<br />Email: <a href='mailto:cclin@mail.nknu.edu.tw' title='寄信給cclin@mail.nknu.edu.tw'>cclin@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fP2bGeRriyrdphVN2s5IS%2fRmtVVsjcK7FNt1WJ6K2TV6%2fn2yxKbamINxwtY%2bFK0NXw%3d%3d');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3345" target="_blank" title="何淑君"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3345" target="_blank">何淑君</a>  | <a href="https://website.sch-labs.com/" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 資訊管理、電子商務、設計思考、使用者體驗<br />電話: 8015<br />Email: <a href='mailto:sch@mail.nknu.edu.tw' title='寄信給sch@mail.nknu.edu.tw'>sch@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fP8ts9rxGw%2fnaOMJjd%2fYWjoY8Zemt56j%2fvGV6JmeRbFjkCD7eFu1kZxZ%2bU5IRJ8C1g%3d%3d');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3347" target="_blank" title="鄭伯壎"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3347" target="_blank">鄭伯壎</a>  | <a href="https://sites.google.com/mail.nknu.edu.tw/cph/home" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: HL7 V2.3 Specialist (20000912), 醫療資訊系統, 資訊管理, 軟體工程, 醫療資訊標準, 軟硬體共同設計, 資訊教育<br />電話: 8006<br />Email: <a href='mailto:cph@mail.nknu.edu.tw' title='寄信給cph@mail.nknu.edu.tw'>cph@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fP64u1ikm%2buROBSuiKXFA7EPMAYX1AMvw%2b%2f4uwOUboUng3D3CdT0huMavFnvvkObkQ%3d%3d');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3349" target="_blank" title="郭家旭"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3349" target="_blank">郭家旭</a>  | <a href="https://sites.google.com/site/kuochweb/" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 2D Animation for CrazyTalk Animator (CTA2), 無線感測網路 WSN, 物聯網 IoT應用, 多媒體通訊網路軟體設計, RFID/NFC應用系統, 行動資訊系統設計<br />電話: 8007<br />Email: <a href='mailto:kuoch@mail.nknu.edu.tw' title='寄信給kuoch@mail.nknu.edu.tw'>kuoch@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fLsv0QJ60evYrw%2b09uG7jFFUHWToL4e60cyD8umO5Zsx');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3457" target="_blank" title="余遠澤"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3457" target="_blank">余遠澤</a>  | <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3457" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 教授<br />專長: 大數據分析系統設計 (Big Data Analysis Design), 雲端運算 (Cloud Computing), 物聯網平台設計 (Internet of Thing Platform Design), 行動運算 (Mobile Computing, 5G, 6G), 無線網路通訊 (Wireless Network Communication), 智慧機器人設計 (Intelligent Robot Design), 嵌入式系統設計(Embedded System Design), 多媒體系統設計 (Multimedia System Design), 多媒體IC設計 (Multimedia Processor Design), 服務品質保證技術 (Quality of Service), 影音串流技術 (Multimedia Streaming Technique), 擴增實境系統設計 (Augmented Reality System Design), 智慧醫療資訊系統 (Intelligent eHealth)<br />電話: 8008<br />Email: <a href='mailto:yuyt@mail.nknu.edu.tw' title='寄信給yuyt@mail.nknu.edu.tw'>yuyt@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fIT7SRCI7z%2feT8Bugiw9Dj4L2xPxkT4m%2bGa6zfurVeK2');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=4917" target="_blank" title="李哲瑋"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=4917" target="_blank">李哲瑋</a></div>
+                    <p class="teacher-card-text">職稱: 副教授<br />專長: 資訊安全、黏著式資料保護技術、隱私通訊、數位影像處理及驗證、普適資安、藏密技術、密碼學<br />Email: <a href='mailto:t4917@mail.nknu.edu.tw' title='寄信給t4917@mail.nknu.edu.tw'>t4917@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            <div class="teacher-card">
+                <div class="teacher-card-img" style="background-image:url('https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=pgXmMdjDaLuc%2bdhEdeh4fE46FbR%2fCXJlnD23KlwGcIRu6%2bCNZ8Bu%2fitEzRUNe2fF');">
+                    <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3611" target="_blank" title="陳立偉"></a>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="teacher-card-title">姓名: <a href="https://sso.nknu.edu.tw/DataOpen2Search/vita.aspx?UNID=3611" target="_blank">陳立偉</a>  | <a href="http://lwchen.weebly.com/" target="_blank" title='教師個人網頁 (另開新視窗)'>教師個人網頁<span class="fa fa-home"></span></a></div>
+                    <p class="teacher-card-text">職稱: 助理教授<br />電話: 8010<br />Email: <a href='mailto:lwchen@mail.nknu.edu.tw' title='寄信給lwchen@mail.nknu.edu.tw'>lwchen@mail.nknu.edu.tw</a></p>
+                </div>
+            </div>
+            </div>
+    </section>
