@@ -1,200 +1,528 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="png" href="你的段落文字 (2).png">
-    <title>蔡曜丞 Andrew Tsai</title>
-    <style>
-        body {
-            font-family: SimSun;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>軟體工程與管理學系</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        header {
-            text-align: center;
-            background: linear-gradient(to right, #FFFF77,#33FFDD);
-            padding: 3rem;
-            color: black;
-            animation: fadeIn 2s;
-        }
+    body {
+      font-family: "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8f6f0 0%, #e8e2d4 25%, #d4c4a8 50%, #c7b299 75%, #f8f6f0 100%);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      overflow-x: hidden;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        .section {
-            padding: 3rem;
-            text-align: left;
-            transition: background-color 0.5s;
-        }
+    /* 浮動粒子背景 */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .section:nth-child(odd) {
-            background-color:#CCCCFF;
-        }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(139,115,85,0.6);
+      border-radius: 50%;
+      animation: float 20s infinite linear;
+    }
 
-        .section:nth-child(even) {
-            background-color:#BBFFEE;
-        }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
 
-        .card {
-            display: inline-block;
-            background: white;
-            width: 300px;
-            margin: 1rem;
-            perspective: 1000px;
-        }
+    /* Header */
+    header {
+      background: linear-gradient(135deg, rgba(199,178,153,0.95), rgba(212,196,168,0.95));
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(139,115,85,0.2);
+      padding: 20px;
+      position: relative;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(139,115,85,0.15);
+    }
 
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(45deg, #8b5a3c, #a0522d, #cd853f, #daa520);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(139,90,60,0.3);
+      margin-bottom: 15px;
+    }
 
-        .card:hover .card-inner {
-            transform: rotateY(180deg);
-        }
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
 
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
+    .header-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-        .card-front {
-            background: #4CAF50;
-            color: white;
-        }
+    .lang-buttons {
+      display: flex;
+      gap: 10px;
+    }
 
-        .card-back {
-            background:aquamarine;
-            color: black;
-            transform: rotateY(180deg);
-        }
+    .lang-buttons button, .home-link {
+      background: linear-gradient(135deg, rgba(248,246,240,0.8), rgba(232,226,212,0.6));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(139,115,85,0.3);
+      color: #5d4e37;
+      padding: 8px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        .carousel {
-            display: flex;
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            height: 300px;
-        }
+    .lang-buttons button:hover, .home-link:hover {
+      background: linear-gradient(135deg, rgba(199,178,153,0.9), rgba(212,196,168,0.7));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(139,115,85,0.2);
+      color: #3e2723;
+    }
 
-        .carousel img {
-            width: 100%;
-            animation: slide 15s infinite;
-        }
+    /* Navigation */
+    nav {
+      background: linear-gradient(135deg, rgba(139,115,85,0.9), rgba(160,82,45,0.85));
+      backdrop-filter: blur(15px);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      border-bottom: 1px solid rgba(248,246,240,0.2);
+    }
 
-        @keyframes slide {
-            0%, 33% { transform: translateX(0); }
-            34%, 66% { transform: translateX(-100%); }
-            67%, 100% { transform: translateX(-200%); }
-        }
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
+    nav a {
+      color: #f8f6f0;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 25px;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
 
-        .contact-button {
-            background: #FFD700;
-            border: none;
-            color: #333;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(248,246,240,0.3), transparent);
+      transition: left 0.5s;
+    }
 
-        .contact-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px #FFD700;
-        }
-    </style>
+    nav a:hover {
+      background: linear-gradient(135deg, #cd853f, #daa520);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(139,115,85,0.4);
+      color: #3e2723;
+    }
+
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 40px auto;
+      background: linear-gradient(135deg, rgba(248,246,240,0.7), rgba(232,226,212,0.6));
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      border: 1px solid rgba(199,178,153,0.3);
+      box-shadow: 0 20px 60px rgba(139,115,85,0.15);
+      position: relative;
+      z-index: 10;
+      animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero img {
+      max-width: 100%;
+      width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+      margin-right: 40px;
+    }
+
+    .hero img:hover {
+      transform: scale(1.05) rotateY(5deg);
+    }
+
+    .hero .info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero .info h2 {
+      color: #5d4e37;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 8px rgba(139,115,85,0.2);
+      background: linear-gradient(45deg, #8b5a3c, #a0522d, #cd853f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .info p {
+      font-size: 1.1rem;
+      margin: 15px 0;
+      color: #5d4e37;
+      text-shadow: 0 2px 4px rgba(139,115,85,0.1);
+      line-height: 1.6;
+    }
+
+    .hero .info p strong {
+      color: #8b5a3c;
+      font-weight: 600;
+    }
+
+    /* News Section */
+    .embed-news {
+      padding: 60px 20px;
+      background: linear-gradient(135deg, rgba(232,226,212,0.4), rgba(212,196,168,0.3));
+      backdrop-filter: blur(10px);
+      margin: 40px 20px;
+      border-radius: 30px;
+      border: 1px solid rgba(199,178,153,0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    .embed-news h2 {
+      font-size: 2.2rem;
+      color: #5d4e37;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+      text-shadow: 0 4px 8px rgba(139,115,85,0.2);
+    }
+
+    .embed-news h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #8b5a3c, #cd853f, #8b5a3c);
+      border-radius: 2px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(139,90,60,0.3); }
+      50% { box-shadow: 0 0 40px rgba(139,90,60,0.5); }
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 2px solid rgba(199,178,153,0.3);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(139,115,85,0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Links Section */
+    .links {
+      padding: 50px 20px;
+      background: linear-gradient(135deg, rgba(248,246,240,0.6), rgba(232,226,212,0.5));
+      backdrop-filter: blur(15px);
+      margin: 40px 20px;
+      border-radius: 25px;
+      border: 1px solid rgba(199,178,153,0.3);
+      position: relative;
+      z-index: 10;
+    }
+
+    .links h3 {
+      font-size: 1.8rem;
+      color: #5d4e37;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 4px rgba(139,115,85,0.2);
+      text-align: center;
+    }
+
+    .links ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .links li {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .links a {
+      display: block;
+      color: #5d4e37;
+      text-decoration: none;
+      padding: 15px 25px;
+      background: linear-gradient(135deg, rgba(248,246,240,0.8), rgba(232,226,212,0.6));
+      border-radius: 15px;
+      border: 1px solid rgba(199,178,153,0.4);
+      transition: all 0.3s ease;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      background: linear-gradient(135deg, rgba(205,133,63,0.3), rgba(218,165,32,0.2));
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(139,115,85,0.2);
+      border-color: rgba(139,90,60,0.5);
+      color: #3e2723;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, rgba(139,115,85,0.9), rgba(93,78,55,0.95));
+      backdrop-filter: blur(20px);
+      color: rgba(248,246,240,0.9);
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(248,246,240,0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    footer p {
+      font-size: 1rem;
+      text-shadow: 0 2px 4px rgba(139,115,85,0.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .hero img {
+        margin-right: 0;
+        margin-bottom: 30px;
+      }
+      
+      .hero .info h2 {
+        font-size: 2rem;
+      }
+      
+      .nav-container {
+        justify-content: center;
+      }
+      
+      nav a {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Floating Animation */
+    .hero, .embed-news, .links {
+      animation: float-gentle 6s ease-in-out infinite;
+    }
+
+    .embed-news {
+      animation-delay: -2s;
+    }
+
+    .links {
+      animation-delay: -4s;
+    }
+
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>蔡曜丞 Andrew Tsai</h1>
-        <p>工業科技教育學系 | 軟體工程與管理學系 | 國立高雄師範大學　| 志工團 活動長 | 志工團寒假服務隊 教學長</p>
-        <p>　　　　　　　　　　　ＩＴＥ　|　ＳＥＭ　|　ＮＫＮＵ　| Ｖｏｌｕｎｔｅｅｒ　Ｇｒｏｕｐ  </p>
-    </header>
+  <!-- 浮動粒子背景 -->
+  <div class="particles" id="particles"></div>
 
-    <section class="section">
-        <h2> 關於我 </h2>
-        <p> 來自屏東在高雄讀書的大學生，蠻喜歡資訊教育跟生活科技，希望可以盡一點棉薄之力縮短教育資源差距。</p>
-        <p> 軟體工程與管理學系 X 工業科技教育學系 </p>
-        <p> 112-1 學年度苓洲國小課輔班 志工</p>
-        <p> 112-2 學年度苓洲國小課輔班 志工</p>
-        <p> 小一、小五Scratch 競賽指導家教、Python家教 </p>
-        <p>112 屏東縣 九如國中 暑期課程助理講師</p>
-        <p>113 屏東縣 九如國中 暑期課程助理講師</p>
-        <p>2024 高師大 傑青論壇 秘書組</p>
-        <p>2024  科丁全國PK賽 協行、隊輔、表演者</p>
-        <p>113-1 深根.幼苗課服服務隊</p>
-        <p>113-1  志工團寒假服務隊 龍肚國中</p>
-        <img src="DSC08573.jpg" style="width:100%; max-width:800px;">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/73jwx5kCSqQ?si=NYAjTZpbSysp7XPe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </section>
-    <section class="section">
-        <h2>經歷</h2>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">高師大 志工團 活動長</div>
-                <div class="card-back">辦理社團活動，促進社團交流</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">高師大 寒假服務隊 教學長</div>
-                <div class="card-back">領導寒假服務隊，策劃教育推廣活動</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">屏東高中 資訊研習社 社長</div>
-                <div class="card-back">推動資訊教育資源，舉辦程式競賽</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">綠洲計畫特殊選材教育平台 總召</div>
-                <div class="card-back">協助特殊選才學生，縮短教育差距</div>
-            </div>
-        </div>
-    </section>
+  <header>
+    <h1>軟體工程與管理學系</h1>
+    <div class="header-controls">
+      <div class="lang-buttons">
+        <button>繁中</button>
+        <button>English</button>
+      </div>
+      <a href="#" class="home-link">高師首頁</a>
+    </div>
+  </header>
 
-    <section class="section">
-        <h2>成果展示</h2>
-        <div class="carousel">
-            <img src="https://github.com/Andrew102025/Andrewbio/blob/50fd78a007273e584666deaf494cdd43a25d2251/Andrew%20pic.jpg" alt="活動照片 1">
-            <img src="photo2.jpg" alt="活動照片 2">
-            <img src="photo3.jpg" alt="活動照片 3">
-        </div>
-    </section>
+  <nav>
+    <div class="nav-container">
+      <a href="#">首頁</a>
+      <a href="#">系所簡介</a>
+      <a href="#">系所師資</a>
+      <a href="#">招生專區</a>
+      <a href="#">文件下載</a>
+      <a href="#">學生園地</a>
+      <a href="#">歷年專題</a>
+      <a href="#">高中生專區</a>
+      <a href="#">聯絡我們</a>
+    </div>
+  </nav>
 
-    <section class="section">
-        <h2>聯絡方式</h2>
-        <p>手機: 0901056020</p>
-        <p>Email: andrewdiana1225@gmail.com</p>
-        <a href="mailto:andrewdiana1225@gmail.com">
-            <button class="contact-button">寄mail給偶</button>
-        </a>
-    </section>
+  <div class="hero">
+    <img src="https://news.nknu.edu.tw/uploads/20250526_GAI.png" alt="GAI在學術研究中的應用">
+    <div class="info">
+      <h2>GAI在學術研究中的應用</h2>
+      <p><strong>講者：</strong>國立臺南護理專科學校通識中心 謝盛文 教授</p>
+      <p><strong>時間：</strong>2025年5月26日（一）18:30-20:30</p>
+      <p><strong>地點：</strong>高師大和平校區 愛閱館B1愛閱共享廳</p>
+    </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2024 蔡曜丞</p>
-    </footer>
+  <section class="embed-news">
+    <h2>消息公告</h2>
+    <iframe src="https://news.nknu.edu.tw/nknu_news/LastNewsList_Dept.aspx?place=WE" title="嵌入校園公告"></iframe>
+  </section>
+
+  <section class="links">
+    <h3>相關連結</h3>
+    <ul>
+      <li><a href="#">課程地圖</a></li>
+      <li><a href="#">國立高雄師範大學日夜間開課表</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 國立高雄師範大學 軟體工程與管理學系</p>
+  </footer>
+
+  <script>
+    // 創建浮動粒子效果
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // 導航欄懸停效果
+    function initNavEffects() {
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-3px) scale(1.05)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+    }
+
+    // 滾動時的視差效果
+    function initScrollEffects() {
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.hero, .embed-news, .links');
+        
+        parallaxElements.forEach((el, index) => {
+          const speed = 0.5 + (index * 0.1);
+          el.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+      });
+    }
+
+    // 初始化所有效果
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      initNavEffects();
+      initScrollEffects();
+      
+      // 添加載入動畫
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 1s ease-in-out';
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+  </script>
 </body>
 </html>
