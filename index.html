@@ -1,561 +1,1410 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>軟體工程與管理學系</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>軟體工程與管理學系</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 全域樣式與基礎設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #f8f6f0 0%, #e8e2d4 25%, #d4c4a8 50%, #c7b299 75%, #f8f6f0 100%);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Noto Sans TC', "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0e6d6 0%, #e0d0b0 25%, #d0b080 50%, #c09050 75%, #f0e6d6 100%); /* 更深的暖色系背景 */
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite; /* 調整動畫時間讓背景變換更柔和 */
+            overflow-x: hidden;
+            color: #3e2723; /* 預設文字顏色為深棕色 */
+            line-height: 1.8; /* 增加行高提升閱讀舒適度 */
+        }
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    /* 浮動粒子背景 */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
+        /* 浮動粒子背景 - 調整粒子顏色和大小，使其更細膩 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(139,115,85,0.6);
-      border-radius: 50%;
-      animation: float 20s infinite linear;
-    }
+        .particle {
+            position: absolute;
+            width: 3px; /* 粒子更小 */
+            height: 3px;
+            background: rgba(255, 255, 255, 0.4); /* 淺色粒子，更顯透亮 */
+            border-radius: 50%;
+            animation: float 25s infinite linear; /* 粒子浮動更慢 */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* 增加微光效果 */
+        }
 
-    @keyframes float {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-    }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.8; } /* 粒子出現和消失更平滑 */
+            85% { opacity: 0.8; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
 
-    /* Header */
-    header {
-      background: linear-gradient(135deg, rgba(199,178,153,0.95), rgba(212,196,168,0.95));
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(139,115,85,0.2);
-      padding: 20px;
-      position: relative;
-      z-index: 100;
-      box-shadow: 0 8px 32px rgba(139,115,85,0.15);
-    }
+        /* Header - 豪華質感：磨砂玻璃與金屬光澤 */
+        header {
+            background: rgba(192, 144, 80, 0.9); /* 更深的基礎色 */
+            backdrop-filter: blur(25px) brightness(1.1); /* 更強的磨砂效果和亮度 */
+            -webkit-backdrop-filter: blur(25px) brightness(1.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* 輕微的邊框 */
+            padding: 25px 20px;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); /* 更深的陰影 */
+            transition: all 0.5s ease; /* 新增過渡效果 */
+        }
 
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
 
-    .dept-logo {
-      height: 60px;
-      width: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(139,115,85,0.2);
-      transition: transform 0.3s ease;
-    }
+        .dept-logo {
+            height: 70px; /* 標誌更大 */
+            border-radius: 15px; /* 更圓潤的邊角 */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 標誌陰影更明顯 */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            filter: drop-shadow(0 0 15px rgba(255, 223, 0, 0.5)); /* 輕微金色光暈 */
+        }
 
-    .dept-logo:hover {
-      transform: scale(1.1);
-    }
+        .dept-logo:hover {
+            transform: scale(1.15) rotate(2deg); /* 更顯著的互動 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
 
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      background: linear-gradient(45deg, #8b5a3c, #a0522d, #cd853f, #daa520);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s ease-in-out infinite;
-      text-shadow: 0 0 30px rgba(139,90,60,0.3);
-      margin-bottom: 15px;
-    }
+        header h1 {
+            font-family: 'Playfair Display', serif; /* 華麗字體 */
+            font-size: 3rem; /* 標題更大 */
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #ffd700, #daa520, #b8860b, #cd7f32); /* 豪華漸變金 */
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s ease-in-out infinite; /* 調整光澤動畫 */
+            text-shadow: 0 0 40px rgba(255, 223, 0, 0.5); /* 金色發光效果 */
+            margin-bottom: 20px;
+        }
 
-    @keyframes shimmer {
-      0%, 100% { background-position: 0% center; }
-      50% { background-position: 100% center; }
-    }
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
 
-    .header-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+        .header-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
 
-    .lang-buttons {
-      display: flex;
-      gap: 10px;
-    }
+        .lang-buttons button, .home-link {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.6)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #5d4e37;
+            padding: 10px 20px;
+            border-radius: 30px; /* 更圓潤 */
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 更流暢的過渡 */
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .lang-buttons button, .home-link {
-      background: linear-gradient(135deg, rgba(248,246,240,0.8), rgba(232,226,212,0.6));
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(139,115,85,0.3);
-      color: #5d4e37;
-      padding: 8px 16px;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      font-weight: 500;
-    }
+        .lang-buttons button:hover, .home-link:hover {
+            background: linear-gradient(135deg, rgba(255, 223, 0, 0.7), rgba(218, 165, 32, 0.6)); /* 懸停時轉為金色漸變 */
+            transform: translateY(-5px) scale(1.05); /* 更顯著的抬升效果 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: #3e2723;
+            border-color: rgba(255, 223, 0, 0.8); /* 金色邊框 */
+        }
 
-    .lang-buttons button:hover, .home-link:hover {
-      background: linear-gradient(135deg, rgba(199,178,153,0.9), rgba(212,196,168,0.7));
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(139,115,85,0.2);
-      color: #3e2723;
-    }
+        /* Navigation - 高雅的導航列 */
+        nav {
+            background: rgba(93, 78, 55, 0.95); /* 深棕色背景 */
+            backdrop-filter: blur(20px);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Navigation */
-    nav {
-      background: linear-gradient(135deg, rgba(139,115,85,0.9), rgba(160,82,45,0.85));
-      backdrop-filter: blur(15px);
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 99;
-      border-bottom: 1px solid rgba(248,246,240,0.2);
-    }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px; /* 增加間距 */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
 
-    .nav-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        nav a {
+            font-family: 'Playfair Display', serif; /* 導航字體 */
+            color: #f0e6d6; /* 淺米色文字 */
+            text-decoration: none;
+            font-weight: 600;
+            padding: 14px 25px; /* 增加點擊區域 */
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    nav a {
-      color: #f8f6f0;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 12px 20px;
-      border-radius: 25px;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
-      overflow: hidden;
-    }
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%; /* 更長的滑過效果 */
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 223, 0, 0.4), transparent); /* 金色滑過光澤 */
+            transition: left 0.6s ease-out; /* 更平滑的滑過動畫 */
+        }
 
-    nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(248,246,240,0.3), transparent);
-      transition: left 0.5s;
-    }
+        nav a:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520); /* 懸停時變為金棕色 */
+            transform: translateY(-4px) scale(1.08); /* 更顯著的動畫 */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            color: #3e2723;
+        }
 
-    nav a:hover {
-      background: linear-gradient(135deg, #cd853f, #daa520);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(139,115,85,0.4);
-      color: #3e2723;
-    }
+        nav a:hover::before {
+            left: 120%; /* 確保光澤完全滑過 */
+        }
 
-    nav a:hover::before {
-      left: 100%;
-    }
+        /* Hero Section - 沉穩大氣的形象區 */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 80px 40px; /* 增加內邊距 */
+            max-width: 1300px; /* 擴大最大寬度 */
+            margin: 60px auto; /* 增加上下間距 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.6)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(25px) brightness(1.05);
+            -webkit-backdrop-filter: blur(25px) brightness(1.05);
+            border-radius: 40px; /* 更大的圓角 */
+            border: 2px solid rgba(255, 223, 0, 0.3); /* 金色邊框 */
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25); /* 更深的陰影 */
+            position: relative;
+            z-index: 10;
+            animation: slideUp 1.2s ease-out; /* 調整載入動畫 */
+            overflow: hidden; /* 防止內容溢出 */
+            background-size: 100% 100%; /* 確保背景漸變填充 */
+            background-repeat: no-repeat;
+        }
 
-    /* Hero Section */
-    .hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      padding: 60px 20px;
-      max-width: 1200px;
-      margin: 40px auto;
-      background: linear-gradient(135deg, rgba(248,246,240,0.7), rgba(232,226,212,0.6));
-      backdrop-filter: blur(20px);
-      border-radius: 30px;
-      border: 1px solid rgba(199,178,153,0.3);
-      box-shadow: 0 20px 60px rgba(139,115,85,0.15);
-      position: relative;
-      z-index: 10;
-      animation: slideUp 1s ease-out;
-    }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .hero::before { /* 增加背景紋理疊加 */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgNzAgNzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgCTxnIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+CgkgICAgCTxwYXRoIGQ9Ik0wIDcwaDcwVjBIMHoiIGZpbGw9InJnYmEoMCwwLDAsMC4wNSkiLz4KICAgICAgICA8cGF0aCBkPSJNMCA3MCBMIDcwIDAgTCA3MCA3MCBaIiBmaWxsPSJ1cmwoI2xpbmVhckdyYWRpZW50KSIvPgogICAgPC9nPgogICAgPHBhdGggZD0iTTMwIDcwQzMwIDQ3LjkgNDcuOSA1MC40IDU4LjcgNDAuMUM2OS40IDI5LjggNzAgMC4xIDUwIDAuMUw1MCAzMC42QzUwLjcgNDEuMiAzOS43IDQ4LjQgMjkuMiA1MC4xQzE4LjggNTEuNyAxNSA1My4zIDE1IDc3LjkgTDE1IDcwWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA0KSIvPgoJPC9nPgogICAgPC9zdmc+') repeat;
+            opacity: 0.1;
+            z-index: -1;
+        }
 
-    .hero img {
-      max-width: 100%;
-      width: 400px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
-      margin-right: 40px;
-    }
+        .hero img {
+            max-width: 100%;
+            width: 450px; /* 圖片更大 */
+            border-radius: 25px; /* 更圓潤邊角 */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); /* 更深的陰影 */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-right: 50px; /* 增加間距 */
+            border: 3px solid rgba(255, 223, 0, 0.4); /* 金色邊框 */
+            filter: grayscale(10%) brightness(1.05); /* 輕微去色和提亮 */
+        }
 
-    .hero img:hover {
-      transform: scale(1.05) rotateY(5deg);
-    }
+        .hero img:hover {
+            transform: scale(1.08) rotateY(8deg); /* 更顯著的互動 */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            filter: grayscale(0%) brightness(1.1); /* 恢復色彩並更亮 */
+        }
 
-    .hero .info {
-      flex: 1;
-      min-width: 300px;
-    }
+        .hero .info {
+            flex: 1;
+            min-width: 350px; /* 資訊區最小寬度 */
+        }
 
-    .hero .info h2 {
-      color: #5d4e37;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-shadow: 0 4px 8px rgba(139,115,85,0.2);
-      background: linear-gradient(45deg, #8b5a3c, #a0522d, #cd853f);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .hero .info h2 {
+            font-family: 'Playfair Display', serif;
+            color: #5d4e37;
+            font-size: 3rem; /* 標題更大 */
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #b8860b, #daa520, #ffd700); /* 金色漸變 */
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            animation: text-glow 2s ease-in-out infinite alternate; /* 輕微發光動畫 */
+        }
 
-    .hero .info p {
-      font-size: 1.1rem;
-      margin: 15px 0;
-      color: #5d4e37;
-      text-shadow: 0 2px 4px rgba(139,115,85,0.1);
-      line-height: 1.6;
-    }
+        @keyframes text-glow {
+            from { text-shadow: 0 0 10px rgba(255, 223, 0, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 223, 0, 0.8); }
+        }
 
-    .hero .info p strong {
-      color: #8b5a3c;
-      font-weight: 600;
-    }
+        .hero .info p {
+            font-size: 1.2rem; /* 文字更大 */
+            margin: 20px 0;
+            color: #4a382b; /* 更深的文字顏色 */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            line-height: 1.8;
+        }
 
-    /* News Section */
-    .embed-news {
-      padding: 60px 20px;
-      background: linear-gradient(135deg, rgba(232,226,212,0.4), rgba(212,196,168,0.3));
-      backdrop-filter: blur(10px);
-      margin: 40px 20px;
-      border-radius: 30px;
-      border: 1px solid rgba(199,178,153,0.2);
-      position: relative;
-      z-index: 10;
-    }
+        .hero .info p strong {
+            color: #8b5a3c;
+            font-weight: 700;
+            letter-spacing: 0.5px; /* 增加字距 */
+        }
 
-    .embed-news h2 {
-      font-size: 2.2rem;
-      color: #5d4e37;
-      margin-bottom: 30px;
-      text-align: center;
-      position: relative;
-      padding-bottom: 15px;
-      text-shadow: 0 4px 8px rgba(139,115,85,0.2);
-    }
+        /* News Section - 精緻的消息公告區 */
+        .embed-news {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(240, 240, 240, 0.5)); /* 淺色磨砂背景 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 60px 40px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 223, 0, 0.3); /* 金色邊框 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
 
-    .embed-news h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(90deg, #8b5a3c, #cd853f, #8b5a3c);
-      border-radius: 2px;
-      animation: pulse 2s ease-in-out infinite;
-    }
+        .embed-news h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; /* 標題更大 */
+            color: #5d4e37;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(139,90,60,0.3); }
-      50% { box-shadow: 0 0 40px rgba(139,90,60,0.5); }
-    }
+        .embed-news h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px; /* 分隔線更長 */
+            height: 5px; /* 分隔線更粗 */
+            background: linear-gradient(90deg, #ffd700, #daa520, #ffd700); /* 金色漸變 */
+            border-radius: 3px;
+            animation: pulse-gold 2.5s ease-in-out infinite; /* 調整脈衝動畫 */
+        }
 
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: 2px solid rgba(199,178,153,0.3);
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(139,115,85,0.15);
-      backdrop-filter: blur(10px);
-    }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 223, 0, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(255, 223, 0, 0.7); }
+        }
 
-    /* Links Section */
-    .links {
-      padding: 50px 20px;
-      background: linear-gradient(135deg, rgba(248,246,240,0.6), rgba(232,226,212,0.5));
-      backdrop-filter: blur(15px);
-      margin: 40px 20px;
-      border-radius: 25px;
-      border: 1px solid rgba(199,178,153,0.3);
-      position: relative;
-      z-index: 10;
-    }
+        iframe {
+            width: 100%;
+            height: 700px; /* iframe 更高 */
+            border: 3px solid rgba(255, 223, 0, 0.5); /* 金色邊框 */
+            border-radius: 25px; /* 更圓潤 */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(255, 255, 255, 0.1); /* 輕微透明背景 */
+        }
 
-    .links h3 {
-      font-size: 1.8rem;
-      color: #5d4e37;
-      margin-bottom: 25px;
-      text-shadow: 0 2px 4px rgba(139,115,85,0.2);
-      text-align: center;
-    }
+        /* Links Section - 典雅的連結區 */
+        .links {
+            padding: 70px 40px;
+            background: linear-gradient(135deg, rgba(240, 230, 220, 0.8), rgba(220, 200, 180, 0.7)); /* 淺米色磨砂背景 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 60px 40px;
+            border-radius: 35px;
+            border: 2px solid rgba(255, 223, 0, 0.4); /* 金色邊框 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
 
-    .links ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
+        .links h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; /* 標題更大 */
+            color: #5d4e37;
+            margin-bottom: 35px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
 
-    .links li {
-      width: 100%;
-      max-width: 400px;
-    }
+        .links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* 增加間距 */
+        }
 
-    .links a {
-      display: block;
-      color: #5d4e37;
-      text-decoration: none;
-      padding: 15px 25px;
-      background: linear-gradient(135deg, rgba(248,246,240,0.8), rgba(232,226,212,0.6));
-      border-radius: 15px;
-      border: 1px solid rgba(199,178,153,0.4);
-      transition: all 0.3s ease;
-      text-align: center;
-      font-weight: 500;
-    }
+        .links li {
+            width: 100%;
+            max-width: 500px; /* 連結區域更寬 */
+        }
 
-    .links a:hover {
-      background: linear-gradient(135deg, rgba(205,133,63,0.3), rgba(218,165,32,0.2));
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(139,115,85,0.2);
-      border-color: rgba(139,90,60,0.5);
-      color: #3e2723;
-    }
+        .links a {
+            display: flex; /* 讓內容居中 */
+            justify-content: center;
+            align-items: center;
+            color: #5d4e37;
+            text-decoration: none;
+            padding: 18px 30px; /* 增加點擊區域 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.7)); /* 淺色磨砂背景 */
+            border-radius: 20px;
+            border: 2px solid rgba(255, 223, 0, 0.5); /* 金色邊框 */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.15rem; /* 字體更大 */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, rgba(139,115,85,0.9), rgba(93,78,55,0.95));
-      backdrop-filter: blur(20px);
-      color: rgba(248,246,240,0.9);
-      text-align: center;
-      padding: 30px;
-      margin-top: 40px;
-      border-top: 1px solid rgba(248,246,240,0.2);
-      position: relative;
-      z-index: 10;
-    }
+        .links a::before { /* 連結懸停時的光澤效果 */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 223, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: 1;
+        }
 
-    footer p {
-      font-size: 1rem;
-      text-shadow: 0 2px 4px rgba(139,115,85,0.3);
-    }
+        .links a:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520); /* 懸停時轉為金棕色 */
+            transform: translateY(-8px) scale(1.03); /* 更顯著的抬升 */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            border-color: #ffd700; /* 實心金色邊框 */
+            color: #f8f6f0; /* 懸停時文字變淺 */
+        }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      
-      .header-content {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .dept-logo {
-        height: 50px;
-      }
-      
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .hero img {
-        margin-right: 0;
-        margin-bottom: 30px;
-      }
-      
-      .hero .info h2 {
-        font-size: 2rem;
-      }
-      
-      .nav-container {
-        justify-content: center;
-      }
-      
-      nav a {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-      }
-    }
+        .links a:hover::before {
+            left: 100%;
+        }
 
-    /* Floating Animation */
-    .hero, .embed-news, .links {
-      animation: float-gentle 6s ease-in-out infinite;
-    }
+        /* Teacher Section - 全新的教師介紹區塊 */
+        .teacher-section {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.6));
+            backdrop-filter: blur(25px) brightness(1.05);
+            -webkit-backdrop-filter: blur(25px) brightness(1.05);
+            margin: 60px auto;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 223, 0, 0.3);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 10;
+            max-width: 1300px; /* 配合 Hero 區塊寬度 */
+            overflow: hidden;
+        }
 
-    .embed-news {
-      animation-delay: -2s;
-    }
+        .teacher-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #5d4e37;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .links {
-      animation-delay: -4s;
-    }
+        .teacher-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700, #daa520, #ffd700);
+            border-radius: 3px;
+            animation: pulse-gold 2.5s ease-in-out infinite;
+        }
 
-    @keyframes float-gentle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-  </style>
+        .teacher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* RWD 網格佈局 */
+            gap: 30px; /* 增加卡片間距 */
+            justify-content: center;
+        }
+
+        .teacher-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.7));
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 223, 0, 0.3); /* 金色細邊框 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* 柔和陰影 */
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding-bottom: 25px; /* 增加底部間距 */
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px) scale(1.02); /* 懸停抬升效果 */
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 223, 0, 0.6);
+        }
+
+        .teacher-card-img {
+            height: 250px; /* 圖片高度 */
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid rgba(255, 223, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            filter: grayscale(10%) brightness(1.05); /* 輕微去色和提亮 */
+            transition: all 0.4s ease;
+        }
+
+        .teacher-card:hover .teacher-card-img {
+            filter: grayscale(0%) brightness(1.15); /* 懸停時恢復色彩並更亮 */
+            transform: scale(1.05); /* 圖片輕微放大 */
+        }
+
+        .teacher-card-img a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none; /* 隱藏連結下劃線 */
+        }
+
+        .teacher-card-body {
+            padding: 25px;
+            flex-grow: 1; /* 讓內容區塊自動填充高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 內容上下分散對齊 */
+        }
+
+        .teacher-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8b5a3c;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-card-title a {
+            color: #8b5a3c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .teacher-card-title a:hover {
+            color: #daa520; /* 懸停時變金 */
+        }
+
+        .teacher-card-title .fa-home {
+            margin-left: 8px;
+            color: #b8860b; /* 金色小圖標 */
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .teacher-card-title a:hover .fa-home {
+            transform: scale(1.2);
+        }
+
+        .teacher-card-text {
+            font-size: 1.05rem;
+            color: #4a382b;
+            text-align: left; /* 文本左對齊 */
+            line-height: 1.6;
+            margin-bottom: 15px; /* 調整間距 */
+        }
+
+        .teacher-card-text strong {
+            color: #6a4c33;
+            font-weight: 600;
+        }
+
+        .teacher-card-text a {
+            color: #cd853f; /* Email 連結顏色 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .teacher-card-text a:hover {
+            color: #daa520; /* Email 連結懸停時變金 */
+            text-decoration: underline;
+        }
+
+        /* Footer - 沉穩的頁腳 */
+        footer {
+            background: linear-gradient(135deg, rgba(93, 78, 55, 0.98), rgba(62, 39, 35, 0.98)); /* 更深的棕色漸變 */
+            backdrop-filter: blur(25px);
+            color: rgba(248, 246, 240, 0.95); /* 更淺的文字顏色 */
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+            border-top: 2px solid rgba(255, 223, 0, 0.2); /* 金色細邊 */
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            font-size: 1.1rem; /* 字體更大 */
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.8px; /* 增加字距 */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero, .teacher-section {
+                padding: 60px 30px;
+                margin: 40px auto;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero img {
+                margin-right: 0;
+                margin-bottom: 40px;
+                width: 350px;
+            }
+
+            .hero .info h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero .info p {
+                font-size: 1.1rem;
+            }
+            .teacher-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .dept-logo {
+                height: 60px;
+            }
+            
+            nav a {
+                padding: 10px 18px;
+                font-size: 0.95rem;
+            }
+
+            .embed-news, .teacher-section {
+                padding: 50px 20px;
+                margin: 30px 15px;
+            }
+            .embed-news h2, .teacher-section h2 {
+                font-size: 2.2rem;
+            }
+            iframe {
+                height: 500px;
+            }
+
+            .links {
+                padding: 40px 20px;
+                margin: 30px 15px;
+            }
+            .links h3 {
+                font-size: 1.8rem;
+            }
+            .links a {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+            .teacher-grid {
+                grid-template-columns: 1fr; /* 單列佈局 */
+            }
+            .teacher-card-img {
+                height: 200px;
+            }
+
+            footer {
+                padding: 25px;
+                margin-top: 30px;
+            }
+            footer p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .dept-logo {
+                height: 50px;
+            }
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .lang-buttons button, .home-link {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 8px;
+                padding: 0 10px;
+            }
+            nav a {
+                width: 90%;
+                text-align: center;
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding: 40px 20px;
+            }
+            .hero img {
+                width: 280px;
+            }
+            .hero .info h2 {
+                font-size: 2rem;
+            }
+            .hero .info p {
+                font-size: 1rem;
+            }
+            .embed-news h2, .teacher-section h2 {
+                font-size: 1.8rem;
+            }
+            iframe {
+                height: 400px;
+            }
+            .links h3 {
+                font-size: 1.6rem;
+            }
+            .links a {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .teacher-card-title {
+                font-size: 1.5rem;
+            }
+            .teacher-card-text {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- 浮動粒子背景 -->
-  <div class="particles" id="particles"></div>
+    <div class="particles" id="particles"></div>
 
-  <header>
-    <div class="header-content">
-      <img src="https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=aTq%2b%2bdZoW3gSeRq45gBU0WIZJYI5hMAEf1w3meo6H0qWnXk6BZpwhqH5JLqU5AN7" alt="系所LOGO" class="dept-logo">
-      <h1> 國立高雄師範大學 軟體工程與管理學系</h1>
-    </div>
-    <div class="header-controls">
-      <div class="lang-buttons">
-        <button onclick="this.onclick = function() { window.location.href = prompt('請輸入繁中版連結:') || '#'; }; this.click();">繁中</button>
-        <button onclick="this.onclick = function() { window.location.href = prompt('請輸入English版連結:') || '#'; }; this.click();">English</button>
-      </div>
-      <a href="https://www.nknu.edu.tw/" class="home-link" target="_blank">高師首頁</a>
-    </div>
-  </header>
+    <header>
+        <div class="header-content">
+            <img src="https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=aTq%2b%2bdZoW3gSeRq45gBU0WIZJYI5hMAEf1w3meo6H0qWnXk6BZpwhqH5JLqU5AN7" alt="系所LOGO" class="dept-logo">
+            <h1>國立高雄師範大學 軟體工程與管理學系</h1>
+        </div>
+        <div class="header-controls">
+            <div class="lang-buttons">
+                <button onclick="this.onclick = function() { window.location.href = prompt('請輸入繁中版連結:') || '#'; }; this.click();">繁中</button>
+                <button onclick="this.onclick = function() { window.location.href = prompt('請輸入English版連結:') || '#'; }; this.click();">English</button>
+            </div>
+            <a href="https://www.nknu.edu.tw/" class="home-link" target="_blank">高師首頁</a>
+        </div>
+    </header>
 
-  <nav>
-    <div class="nav-container">
-      <a href="#">首頁</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=1" target="_blank">系所簡介</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=2" target="_blank">系所師資</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=3" target="_blank">招生專區</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=4" target="_blank">文件下載</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=5" target="_blank">學生園地</a>
-      <a href="https://sites.google.com/mail.nknu.edu.tw/projects" target="_blank">歷年專題</a>
-      <a href="https://semfreshman.sdpmlab.org/" target="_blank">高中生專區</a>
-      <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=6" target="_blank">聯絡我們</a>
-    </div>
-  </nav>
+    <nav>
+        <div class="nav-container">
+            <a href="#">首頁</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=1" target="_blank">系所簡介</a>
+            <a href="teachers.html" target="_blank">系所師資</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=3" target="_blank">招生專區</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=4" target="_blank">文件下載</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=5" target="_blank">學生園地</a>
+            <a href="https://sites.google.com/mail.nknu.edu.tw/projects" target="_blank">歷年專題</a>
+            <a href="https://semfreshman.sdpmlab.org/" target="_blank">高中生專區</a>
+            <a href="https://sso.nknu.edu.tw/Services/Site/index.aspx?cLv2=207016&page=6" target="_blank">聯絡我們</a>
+        </div>
+    </nav>
 
-  <div class="hero">
-    <img src="https://news.nknu.edu.tw/uploads/20250526_GAI.png" alt="GAI在學術研究中的應用">
-    <div class="info">
-      <h2>GAI在學術研究中的應用</h2>
-      <p><strong>講者：</strong>國立臺南護理專科學校通識中心 謝盛文 教授</p>
-      <p><strong>時間：</strong>2025年5月26日（一）18:30-20:30</p>
-      <p><strong>地點：</strong>高師大和平校區 愛閱館B1愛閱共享廳</p>
-    </div>
-  </div>
+    <!-- 輪播組件開始 -->
+<style>
+/* 輪播組件專用樣式 - 避免與網站樣式衝突 */
+.academic-carousel {
+    max-width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+}
 
-  <section class="embed-news">
-    <h2>消息公告</h2>
-    <iframe src="https://news.nknu.edu.tw/nknu_news/LastNewsList_Dept.aspx?place=WE" title="嵌入校園公告"></iframe>
-  </section>
+.academic-carousel * {
+    box-sizing: border-box;
+}
 
-  <section class="links">
-    <h3>相關連結</h3>
-    <ul>
-      <li><a href="#" onclick="this.href = prompt('請輸入課程地圖連結:') || '#'; return this.href !== '#';">課程地圖</a></li>
-      <li><a href="#" onclick="this.href = prompt('請輸入開課表連結:') || '#'; return this.href !== '#';">國立高雄師範大學日夜間開課表</a></li>
-    </ul>
-  </section>
+.academic-carousel .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+}
 
-  <footer>
-    <p>&copy; 2025 國立高雄師範大學 軟體工程與管理學系</p>
-  </footer>
+.academic-carousel .carousel-track {
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    width: 400%; /* 4張幻燈片 */
+}
 
-  <script>
-    // 創建浮動粒子效果
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 50;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        particlesContainer.appendChild(particle);
-      }
+.academic-carousel .carousel-slide {
+    min-width: 25%;
+    flex-shrink: 0;
+}
+
+.academic-carousel .hero {
+    display: flex;
+    align-items: center;
+    padding: 35px;
+    gap: 35px;
+    min-height: 300px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+    position: relative;
+}
+
+.academic-carousel .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 48%, rgba(102, 126, 234, 0.03) 50%, transparent 52%);
+    pointer-events: none;
+}
+
+.academic-carousel .hero img {
+    width: 300px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.academic-carousel .hero img:hover {
+    transform: scale(1.02);
+}
+
+.academic-carousel .info {
+    flex: 1;
+    z-index: 1;
+}
+
+.academic-carousel .info h2 {
+    font-size: 22px;
+    color: #2c3e50;
+    margin: 0 0 18px 0;
+    line-height: 1.4;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.academic-carousel .info p {
+    font-size: 15px;
+    color: #5a6c7d;
+    margin: 0 0 12px 0;
+    line-height: 1.6;
+}
+
+.academic-carousel .info strong {
+    color: #34495e;
+    font-weight: 600;
+}
+
+/* 導航按鈕 */
+.academic-carousel .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #667eea;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 20;
+    user-select: none;
+}
+
+.academic-carousel .nav-button:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.academic-carousel .nav-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.academic-carousel .nav-button.prev {
+    left: 15px;
+}
+
+.academic-carousel .nav-button.next {
+    right: 15px;
+}
+
+/* 指示點 */
+.academic-carousel .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 25px;
+    background: linear-gradient(135deg, #fafbff 0%, #f8f9ff 100%);
+}
+
+.academic-carousel .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d1d5db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.academic-carousel .indicator:hover {
+    background: #9ca3af;
+    transform: scale(1.1);
+}
+
+.academic-carousel .indicator.active {
+    background: #667eea;
+    transform: scale(1.3);
+    box-shadow: 0 0 12px rgba(102, 126, 234, 0.4);
+}
+
+.academic-carousel .indicator.active::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .academic-carousel {
+        margin: 15px;
+        border-radius: 8px;
     }
 
-    // 導航欄懸停效果
-    function initNavEffects() {
-      const navLinks = document.querySelectorAll('nav a');
-      navLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-3px) scale(1.05)';
+    .academic-carousel .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+        gap: 20px;
+        min-height: auto;
+    }
+
+    .academic-carousel .hero img {
+        width: 100%;
+        max-width: 280px;
+        height: 160px;
+    }
+
+    .academic-carousel .info h2 {
+        font-size: 19px;
+        margin-bottom: 15px;
+    }
+
+    .academic-carousel .info p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .academic-carousel .nav-button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .academic-carousel .nav-button.prev {
+        left: 10px;
+    }
+
+    .academic-carousel .nav-button.next {
+        right: 10px;
+    }
+
+    .academic-carousel .carousel-indicators {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .academic-carousel .hero {
+        padding: 20px 15px;
+    }
+
+    .academic-carousel .info h2 {
+        font-size: 17px;
+    }
+
+    .academic-carousel .nav-button {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* 滑入動畫 */
+.academic-carousel .carousel-slide.active .info {
+    animation: slideInContent 0.8s ease-out;
+}
+
+@keyframes slideInContent {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 載入狀態 */
+.academic-carousel.loading .hero img {
+    background: #f3f4f6;
+    animation: skeleton 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes skeleton {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+}
+</style>
+
+<!-- 輪播HTML結構 -->
+<div class="academic-carousel" id="academicCarousel">
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="academicCarouselTrack">
+            <!-- 第一張幻燈片 -->
+            <div class="carousel-slide active">
+                <div class="hero">
+                    <img src="https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=aTq%2b%2bdZoW3gSeRq45gBU0eZKozP2E31XWQZbW9Wpf9EEMdKDCoyGugisV2DJGSt2cAKFjB6eKpZlby7AqqNvxg%3d%3d" alt="GAI在學術研究中的應用" loading="lazy">
+                    <div class="info">
+                        <h2>本系榮獲教育部開源軟體創作前瞻人才培育示範系所</h2>
+                        <p><strong>講者：</strong>專業講師團隊</p>
+                        <p><strong>時間：</strong>2025年5月30日 14:00-16:00</p>
+                        <p><strong>地點：</strong>國際會議廳</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二張幻燈片 -->
+            <div class="carousel-slide">
+                <div class="hero">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop&crop=center" alt="學術研討會" loading="lazy">
+                    <div class="info">
+                        <h2>AI與機器學習前沿技術研討會</h2>
+                        <p><strong>講者：</strong>國際知名AI專家</p>
+                        <p><strong>時間：</strong>2025年6月5日 09:00-17:00</p>
+                        <p><strong>地點：</strong>科技大樓演講廳</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三張幻燈片 -->
+            <div class="carousel-slide">
+                <div class="hero">
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&crop=center" alt="程式設計競賽" loading="lazy">
+                    <div class="info">
+                        <h2>全國大學生程式設計競賽</h2>
+                        <p><strong>主辦：</strong>計算機科學系</p>
+                        <p><strong>時間：</strong>2025年6月15日 10:00-18:00</p>
+                        <p><strong>地點：</strong>電腦教室A-F棟</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四張幻燈片 -->
+            <div class="carousel-slide">
+                <div class="hero">
+                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&h=400&fit=crop&crop=center" alt="學術成果展" loading="lazy">
+                    <div class="info">
+                        <h2>學生專題成果發表會</h2>
+                        <p><strong>參與：</strong>全系師生</p>
+                        <p><strong>時間：</strong>2025年6月20日 13:30-17:00</p>
+                        <p><strong>地點：</strong>學生活動中心</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 導航按鈕 -->
+        <button class="nav-button prev" onclick="academicCarouselChange(-1)" aria-label="上一張">‹</button>
+        <button class="nav-button next" onclick="academicCarouselChange(1)" aria-label="下一張">›</button>
+    </div>
+
+    <!-- 指示點 -->
+    <div class="carousel-indicators">
+        <div class="indicator active" onclick="academicCarouselGoTo(0)" aria-label="第1張"></div>
+        <div class="indicator" onclick="academicCarouselGoTo(1)" aria-label="第2張"></div>
+        <div class="indicator" onclick="academicCarouselGoTo(2)" aria-label="第3張"></div>
+        <div class="indicator" onclick="academicCarouselGoTo(3)" aria-label="第4張"></div>
+    </div>
+</div>
+
+<script>
+// 學術輪播組件 JavaScript - 避免命名衝突
+(function() {
+    'use strict';
+    
+    let academicCurrentSlide = 0;
+    const academicTotalSlides = 4;
+    const academicTrack = document.getElementById('academicCarouselTrack');
+    const academicIndicators = document.querySelectorAll('#academicCarousel .indicator');
+    const academicSlides = document.querySelectorAll('#academicCarousel .carousel-slide');
+    let academicAutoplayInterval;
+    let academicIsTransitioning = false;
+    
+    // 更新輪播顯示
+    function academicUpdateCarousel() {
+        if (academicIsTransitioning) return;
+        
+        academicIsTransitioning = true;
+        const translateX = -academicCurrentSlide * 25; // 每張25%
+        academicTrack.style.transform = `translateX(${translateX}%)`;
+        
+        // 更新指示點
+        academicIndicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === academicCurrentSlide);
         });
         
-        link.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0) scale(1)';
+        // 更新幻燈片active狀態
+        academicSlides.forEach((slide, index) => {
+            slide.classList.toggle('active', index === academicCurrentSlide);
         });
-      });
-    }
-
-    // 滾動時的視差效果
-    function initScrollEffects() {
-      window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.hero, .embed-news, .links');
         
-        parallaxElements.forEach((el, index) => {
-          const speed = 0.5 + (index * 0.1);
-          el.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-      });
+        // 重置過渡狀態
+        setTimeout(() => {
+            academicIsTransitioning = false;
+        }, 700);
     }
+    
+    // 切換幻燈片
+    window.academicCarouselChange = function(direction) {
+        if (academicIsTransitioning) return;
+        
+        academicCurrentSlide = (academicCurrentSlide + direction + academicTotalSlides) % academicTotalSlides;
+        academicUpdateCarousel();
+        academicRestartAutoplay();
+    };
+    
+    // 跳到指定幻燈片
+    window.academicCarouselGoTo = function(index) {
+        if (academicIsTransitioning || index === academicCurrentSlide) return;
+        
+        academicCurrentSlide = index;
+        academicUpdateCarousel();
+        academicRestartAutoplay();
+    };
+    
+    // 自動播放
+    function academicStartAutoplay() {
+        academicAutoplayInterval = setInterval(() => {
+            if (!academicIsTransitioning) {
+                academicCarouselChange(1);
+            }
+        }, 5000);
+    }
+    
+    function academicStopAutoplay() {
+        if (academicAutoplayInterval) {
+            clearInterval(academicAutoplayInterval);
+            academicAutoplayInterval = null;
+        }
+    }
+    
+    function academicRestartAutoplay() {
+        academicStopAutoplay();
+        academicStartAutoplay();
+    }
+    
+    // 鍵盤導航
+    function academicHandleKeyboard(e) {
+        if (e.target.closest('#academicCarousel')) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                academicCarouselChange(-1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                academicCarouselChange(1);
+            }
+        }
+    }
+    
+    // 觸控支援
+    let academicStartX = 0;
+    let academicEndX = 0;
+    const academicCarousel = document.getElementById('academicCarousel');
+    
+    function academicHandleTouch() {
+        academicCarousel.addEventListener('touchstart', (e) => {
+            academicStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        academicCarousel.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        academicCarousel.addEventListener('touchend', (e) => {
+            academicEndX = e.changedTouches[0].clientX;
+            const diff = academicStartX - academicEndX;
+            
+            if (Math.abs(diff) > 50) { // 最小滑動距離
+                if (diff > 0) {
+                    academicCarouselChange(1); // 左滑，下一張
+                } else {
+                    academicCarouselChange(-1); // 右滑，上一張
+                }
+            }
+        }, { passive: true });
+    }
+    
+    // 滑鼠懸停控制
+    function academicHoverControl() {
+        academicCarousel.addEventListener('mouseenter', academicStopAutoplay);
+        academicCarousel.addEventListener('mouseleave', academicStartAutoplay);
+    }
+    
+    // 圖片載入處理
+    function academicHandleImageLoading() {
+        const images = academicCarousel.querySelectorAll('img');
+        let loadedCount = 0;
+        
+        academicCarousel.classList.add('loading');
+        
+        images.forEach(img => {
+            if (img.complete) {
+                loadedCount++;
+            } else {
+                img.addEventListener('load', () => {
+                    loadedCount++;
+                    if (loadedCount === images.length) {
+                        academicCarousel.classList.remove('loading');
+                    }
+                });
+                
+                img.addEventListener('error', () => {
+                    loadedCount++;
+                    if (loadedCount === images.length) {
+                        academicCarousel.classList.remove('loading');
+                    }
+                });
+            }
+        });
+        
+        if (loadedCount === images.length) {
+            academicCarousel.classList.remove('loading');
+        }
+    }
+    
+    // 初始化
+    function academicInit() {
+        academicUpdateCarousel();
+        academicStartAutoplay();
+        academicHoverControl();
+        academicHandleTouch();
+        academicHandleImageLoading();
+        
+        // 鍵盤事件監聽
+        document.addEventListener('keydown', academicHandleKeyboard);
+        
+        // 視窗失焦時停止自動播放
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                academicStopAutoplay();
+            } else {
+                academicStartAutoplay();
+            }
+        });
+    }
+    
+    // DOM載入完成後初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', academicInit);
+    } else {
+        academicInit();
+    }
+    
+    // 清理函數（如果需要移除組件時使用）
+    window.academicCarouselDestroy = function() {
+        academicStopAutoplay();
+        document.removeEventListener('keydown', academicHandleKeyboard);
+    };
+    
+})();
+</script>
+<!-- 輪播組件結束 -->
 
-    // 初始化所有效果
-    document.addEventListener('DOMContentLoaded', function() {
-      createParticles();
-      initNavEffects();
-      initScrollEffects();
-      
-      // 添加載入動畫
-      document.body.style.opacity = '0';
-      setTimeout(() => {
-        document.body.style.transition = 'opacity 1s ease-in-out';
-        document.body.style.opacity = '1';
-      }, 100);
-    });
-  </script>
+
+
+    <section class="embed-news">
+        <h2>消息公告</h2>
+        <iframe src="https://news.nknu.edu.tw/nknu_news/LastNewsList_Dept.aspx?place=WE" title="嵌入校園公告"></iframe>
+    </section>
+
+    <section class="links">
+        <h3>相關連結</h3>
+        <ul>
+            <li><a href="#" onclick="this.href = prompt('請輸入課程地圖連結:') || '#'; return this.href !== '#';">課程地圖</a></li>
+            <li><a href="#" onclick="this.href = prompt('請輸入開課表連結:') || '#'; return this.href !== '#';">國立高雄師範大學日夜間開課表</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 國立高雄師範大學 軟體工程與管理學系 版權所有</p>
+    </footer>
+
+    <script>
+        // 創建浮動粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 80; // 增加粒子數量
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 25 + 's'; // 粒子動畫延遲更長
+                particle.style.animationDuration = (Math.random() * 15 + 15) + 's'; // 粒子動畫時長更長
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 導航欄懸停效果 (已由 CSS 處理，此處可移除或保留額外 JS 效果)
+        function initNavEffects() {
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    // 這裡可以添加更複雜的 JS 動畫，例如文字變色、背景紋理動畫等
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    // 這裡可以添加更複雜的 JS 動畫
+                });
+            });
+        }
+
+        // 滾動時的視差效果
+        function initScrollEffects() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.hero, .embed-news, .links, .teacher-section'); // 新增教師區塊
+                
+                parallaxElements.forEach((el, index) => {
+                    const speed = 0.4 + (index * 0.08); // 調整視差速度，更柔和
+                    el.style.transform = `translateY(-${scrolled * speed}px)`; // 向上移動，創造深度感
+                });
+            });
+        }
+
+        // 初始化所有效果
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initNavEffects(); // 雖然主要靠 CSS，但如果需要額外 JS 動畫可以保留
+            initScrollEffects();
+            
+            // 添加載入動畫
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1.5s ease-in-out'; // 更長的載入時間
+                document.body.style.opacity = '1';
+            }, 200);
+        });
+    </script>
 </body>
 </html>
