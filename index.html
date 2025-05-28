@@ -63,6 +63,27 @@
       box-shadow: 0 8px 32px rgba(139,115,85,0.15);
     }
 
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .dept-logo {
+      height: 60px;
+      width: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(139,115,85,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .dept-logo:hover {
+      transform: scale(1.1);
+    }
+
     header h1 {
       font-size: 2.5rem;
       font-weight: 700;
@@ -368,6 +389,15 @@
         font-size: 2rem;
       }
       
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .dept-logo {
+        height: 50px;
+      }
+      
       .hero {
         flex-direction: column;
         text-align: center;
@@ -416,27 +446,30 @@
   <div class="particles" id="particles"></div>
 
   <header>
-    <h1>軟體工程與管理學系</h1>
+    <div class="header-content">
+      <img src="https://sso.nknu.edu.tw/WebServices/ajaxImageReader.aspx?cAES=aTq%2b%2bdZoW3gSeRq45gBU0WIZJYI5hMAEf1w3meo6H0qWnXk6BZpwhqH5JLqU5AN7" alt="系所LOGO" class="dept-logo">
+      <h1>軟體工程與管理學系</h1>
+    </div>
     <div class="header-controls">
       <div class="lang-buttons">
-        <button>繁中</button>
-        <button>English</button>
+        <button onclick="this.onclick = function() { window.location.href = prompt('請輸入繁中版連結:') || '#'; }; this.click();">繁中</button>
+        <button onclick="this.onclick = function() { window.location.href = prompt('請輸入English版連結:') || '#'; }; this.click();">English</button>
       </div>
-      <a href="#" class="home-link">高師首頁</a>
+      <a href="#" class="home-link" onclick="this.href = prompt('請輸入高師首頁連結:') || '#'; return this.href !== '#';">高師首頁</a>
     </div>
   </header>
 
   <nav>
     <div class="nav-container">
-      <a href="#">首頁</a>
-      <a href="#">系所簡介</a>
-      <a href="#">系所師資</a>
-      <a href="#">招生專區</a>
-      <a href="#">文件下載</a>
-      <a href="#">學生園地</a>
-      <a href="#">歷年專題</a>
-      <a href="#">高中生專區</a>
-      <a href="#">聯絡我們</a>
+      <a href="#" onclick="this.href = prompt('請輸入首頁連結:') || '#'; return this.href !== '#';">首頁</a>
+      <a href="#" onclick="this.href = prompt('請輸入系所簡介連結:') || '#'; return this.href !== '#';">系所簡介</a>
+      <a href="#" onclick="this.href = prompt('請輸入系所師資連結:') || '#'; return this.href !== '#';">系所師資</a>
+      <a href="#" onclick="this.href = prompt('請輸入招生專區連結:') || '#'; return this.href !== '#';">招生專區</a>
+      <a href="#" onclick="this.href = prompt('請輸入文件下載連結:') || '#'; return this.href !== '#';">文件下載</a>
+      <a href="#" onclick="this.href = prompt('請輸入學生園地連結:') || '#'; return this.href !== '#';">學生園地</a>
+      <a href="#" onclick="this.href = prompt('請輸入歷年專題連結:') || '#'; return this.href !== '#';">歷年專題</a>
+      <a href="#" onclick="this.href = prompt('請輸入高中生專區連結:') || '#'; return this.href !== '#';">高中生專區</a>
+      <a href="#" onclick="this.href = prompt('請輸入聯絡我們連結:') || '#'; return this.href !== '#';">聯絡我們</a>
     </div>
   </nav>
 
@@ -458,8 +491,8 @@
   <section class="links">
     <h3>相關連結</h3>
     <ul>
-      <li><a href="#">課程地圖</a></li>
-      <li><a href="#">國立高雄師範大學日夜間開課表</a></li>
+      <li><a href="#" onclick="this.href = prompt('請輸入課程地圖連結:') || '#'; return this.href !== '#';">課程地圖</a></li>
+      <li><a href="#" onclick="this.href = prompt('請輸入開課表連結:') || '#'; return this.href !== '#';">國立高雄師範大學日夜間開課表</a></li>
     </ul>
   </section>
 
