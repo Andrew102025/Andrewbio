@@ -61,16 +61,18 @@
 
         /* Header - 豪華質感：磨砂玻璃與金屬光澤 */
         header {
-            background: rgba(192, 144, 80, 0.9); /* 更深的基礎色 */
-            backdrop-filter: blur(25px) brightness(1.1); /* 更強的磨砂效果和亮度 */
+            background: linear-gradient(90deg, #23395d 0%, #FFD700 100%);
+            backdrop-filter: blur(25px) brightness(1.1);
             -webkit-backdrop-filter: blur(25px) brightness(1.1);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* 輕微的邊框 */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             padding: 25px 20px;
             position: relative;
             z-index: 100;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); /* 更深的陰影 */
-            transition: all 0.5s ease; /* 新增過渡效果 */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
         }
+
+
 
         .header-content {
             display: flex;
